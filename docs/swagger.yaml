@@ -1,0 +1,154 @@
+basePath: /api/v1
+definitions:
+  forms.Create:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      phone_number:
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    - password
+    - phone_number
+    type: object
+  forms.Login:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  models.User:
+    properties:
+      date_created:
+        type: string
+      date_updated:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+    type: object
+  se.ServiceError:
+    properties:
+      description:
+        type: string
+      error:
+        type: string
+      time:
+        type: string
+      type:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: bobdence@gmail.com
+    name: Confidence James
+    url: http://github.com/jamesconfy
+  description: Server for https://bennyfoodie.netlify.app/
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Project
+  version: "1.0"
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Register route
+      parameters:
+      - description: Signup Details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/forms.Create'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/se.ServiceError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/se.ServiceError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/se.ServiceError'
+      summary: Register route
+      tags:
+      - Users
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: Login route
+      parameters:
+      - description: Login Details
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/forms.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/se.ServiceError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/se.ServiceError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/se.ServiceError'
+      summary: Login route
+      tags:
+      - Users
+schemes:
+- http
+- https
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorisation
+    type: apiKey
+swagger: "2.0"
