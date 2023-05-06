@@ -1,8 +1,8 @@
 version: "3.4"
 
 services:
-  bennyfoodie:
-    image: bennyfoodie
+  project-name:
+    image: project-name
     build:
       context: .
       dockerfile: ./Dockerfile
