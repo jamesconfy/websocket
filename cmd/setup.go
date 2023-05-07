@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -8,7 +9,7 @@ import (
 	"project-name/cmd/middleware"
 	"project-name/cmd/routes"
 
-	mysql "project-name/internal/database"
+	sql "project-name/internal/database"
 	"project-name/internal/logger"
 	repo "project-name/internal/repository"
 	"project-name/internal/service"
@@ -33,7 +34,14 @@ func Setup() {
 		addr = "8000"
 	}
 
-	dsn := config.DATA_SOURCE_NAME
+	host := config.POSTGRES_HOST
+	username := config.POSTGRES_USERNAME
+	passwd := config.POSTGRES_PASSWORD
+	dbname := config.POSTGRES_DBNAME
+
+	fmt.Println(host, username, passwd, dbname)
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", host, username, passwd, dbname)
 	if dsn == "" {
 		log.Println("DSN cannot be empty")
 	}
@@ -43,7 +51,7 @@ func Setup() {
 		log.Println("Please provide a secret key token")
 	}
 
-	host := config.HOST
+	host = config.HOST
 	if host == "" {
 		log.Println("Please provide an email host name")
 	}
@@ -53,7 +61,7 @@ func Setup() {
 		log.Println("Please provide an email port")
 	}
 
-	passwd := config.PASSWD
+	passwd = config.PASSWD
 	if passwd == "" {
 		log.Println("Please provide an email password")
 	}
@@ -63,13 +71,15 @@ func Setup() {
 		log.Println("Please provide an email address")
 	}
 
-	connection, err := mysql.NewMySQLServer(dsn)
+	fmt.Println("DSN: ", dsn)
+	log.Println("dsn: ", dsn)
+	db, err := sql.New(dsn)
 	if err != nil {
 		log.Println("Error Connecting to DB: ", err)
-		return
 	}
-	defer connection.Close()
-	conn := connection.GetConn()
+	defer db.Close()
+	fmt.Println(db.Ping())
+	conn := db.GetConn()
 
 	gin.DefaultWriter = io.MultiWriter(os.Stdout, logger.NewLogger())
 	gin.DisableConsoleColor()

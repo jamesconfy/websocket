@@ -3,13 +3,17 @@ package utils
 import "github.com/spf13/viper"
 
 type Config struct {
-	DATA_SOURCE_NAME string `mapstructure:"DATA_SOURCE_NAME"`
 	ADDR             string `mapstructure:"ADDR"`
 	SECRET_KEY_TOKEN string `mapstructure:"SECRET_KEY_TOKEN"`
 	HOST             string `mapstructure:"HOST"`
 	PORT             string `mapstructure:"PORT"`
 	PASSWD           string `mapstructure:"PASSWD"`
 	EMAIL            string `mapstructure:"EMAIL"`
+
+	POSTGRES_HOST     string `mapstructure:"POSTGRES_HOST"`
+	POSTGRES_USERNAME string `mapstructure:"POSTGRES_USERNAME"`
+	POSTGRES_PASSWORD string `mapstructure:"POSTGRES_PASSWORD"`
+	POSTGRES_DBNAME   string `mapstructure:"POSTGRES_DBNAME"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

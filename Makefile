@@ -1,7 +1,7 @@
-migrateup:
-	migrate -path db/migration -database "" -verbose up
+migrate_up:
+	migrate -path db/migration -database "postgres://localhost:password@localhost:5432/project_name?sslmode=disable" -verbose up
 
-migratedown:
+migrate_down:
 	migrate -path db/migration -database "" -verbose down
 
 run:

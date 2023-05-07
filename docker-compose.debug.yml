@@ -2,9 +2,35 @@ version: "3.4"
 
 services:
   project-name:
-    image: project-name
+    # image: project-name
     build:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 5000:5000
+      - 8080:8080
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - postgresdb
+    networks:
+      - sql_net
+
+  postgresdb:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      - POSTGRES_USER=''
+      - POSTGRES_PASSWORD=''
+      - POSTGRES_DB=''
+      - DATABASE_HOST=localhost
+    ports:
+      - "1234:5432"
+      - "5432:5432"
+    networks:
+      - sql_net
+
+# Networks to be created to facilitate communication between containers
+networks:
+  sql_net:
+    driver: bridge
