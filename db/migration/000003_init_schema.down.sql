@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS `token`;
+ALTER TABLE auth DROP COLUMN expires_at;

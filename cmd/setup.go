@@ -6,89 +6,45 @@ import (
 	"log"
 	"os"
 
-	"project-name/cmd/middleware"
-	"project-name/cmd/routes"
-
+	middleware "project-name/cmd/middleware"
+	routes "project-name/cmd/routes"
+	_ "project-name/docs"
 	sql "project-name/internal/database"
 	"project-name/internal/logger"
 	repo "project-name/internal/repository"
-	"project-name/internal/service"
+	service "project-name/internal/service"
+	utils "project-name/utils"
 
-	"project-name/utils"
-
-	_ "project-name/docs"
-
-	"github.com/gin-gonic/gin"
+	gin "github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+var (
+	addr         string
+	mode         string
+	dsn          string
+	secret       string
+	email        string
+	email_passwd string
+	email_host   string
+	email_port   string
+)
+
 func Setup() {
-	config, err := utils.LoadConfig("./")
-	if err != nil {
-		log.Println("Error loading configurations: ", err)
-	}
-
-	addr := config.ADDR
-	if addr == "" {
-		addr = "8000"
-	}
-
-	host := config.POSTGRES_HOST
-	username := config.POSTGRES_USERNAME
-	passwd := config.POSTGRES_PASSWORD
-	dbname := config.POSTGRES_DBNAME
-
-	fmt.Println(host, username, passwd, dbname)
-
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", host, username, passwd, dbname)
-	if dsn == "" {
-		log.Println("DSN cannot be empty")
-	}
-
-	secret := config.SECRET_KEY_TOKEN
-	if secret == "" {
-		log.Println("Please provide a secret key token")
-	}
-
-	host = config.HOST
-	if host == "" {
-		log.Println("Please provide an email host name")
-	}
-
-	port := config.PORT
-	if port == "" {
-		log.Println("Please provide an email port")
-	}
-
-	passwd = config.PASSWD
-	if passwd == "" {
-		log.Println("Please provide an email password")
-	}
-
-	email := config.EMAIL
-	if email == "" {
-		log.Println("Please provide an email address")
-	}
-
-	fmt.Println("DSN: ", dsn)
-	log.Println("dsn: ", dsn)
-	db, err := sql.New(dsn)
-	if err != nil {
-		log.Println("Error Connecting to DB: ", err)
-	}
-	defer db.Close()
-	fmt.Println(db.Ping())
-	conn := db.GetConn()
-
-	gin.DefaultWriter = io.MultiWriter(os.Stdout, logger.NewLogger())
-	gin.DisableConsoleColor()
-
 	router := gin.New()
 	v1 := router.Group("/api/v1")
 	v1.Use(gin.Logger())
 	v1.Use(gin.Recovery())
 	router.Use(middleware.CORS())
+
+	db, err := sql.New(dsn)
+	if err != nil {
+		log.Println("Error Connecting to DB: ", err)
+	}
+	defer db.Close()
+	conn := db.GetConn()
 
 	// Auth Repository
 	authRepo := repo.NewAuthRepo(conn)
@@ -97,7 +53,7 @@ func Setup() {
 	userRepo := repo.NewUserRepo(conn)
 
 	// Email Service
-	emailSrv := service.NewEmailSrv(email, passwd, host, port)
+	emailSrv := service.NewEmailSrv(email, email_passwd, email_host, email_port)
 
 	// Token Service
 	authSrv := service.NewAuthService(authRepo, secret)
@@ -123,3 +79,69 @@ func Setup() {
 	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.Run(":" + addr)
 }
+
+func init() {
+	godotenv.Load(".env")
+
+	addr = utils.AppConfig.ADDR
+	if addr == "" {
+		addr = "8000"
+	}
+
+	secret = utils.AppConfig.SECRET_KEY_TOKEN
+	if secret == "" {
+		log.Println("Please provide a secret key token")
+	}
+
+	mode = utils.AppConfig.MODE
+	if mode == "development" {
+		loadDev()
+	}
+
+	if mode == "production" {
+		loadProd()
+	}
+
+}
+
+func loadDev() {
+	gin.SetMode(gin.DebugMode)
+
+	host := utils.AppConfig.POSTGRES_HOST
+	username := utils.AppConfig.POSTGRES_USERNAME
+	passwd := utils.AppConfig.POSTGRES_PASSWORD
+	dbname := utils.AppConfig.POSTGRES_DBNAME
+
+	dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", host, username, passwd, dbname)
+	if dsn == "" {
+		log.Println("DSN cannot be empty")
+	}
+
+	email_host = utils.AppConfig.HOST
+	if email_host == "" {
+		log.Println("Please provide an email host name")
+	}
+
+	email_port = utils.AppConfig.PORT
+	if email_port == "" {
+		log.Println("Please provide an email port")
+	}
+
+	email_passwd = utils.AppConfig.PASSWD
+	if email_passwd == "" {
+		log.Println("Please provide an email password")
+	}
+
+	email = utils.AppConfig.EMAIL
+	if email == "" {
+		log.Println("Please provide an email address")
+	}
+}
+
+func loadProd() {
+	gin.SetMode(gin.ReleaseMode)
+	gin.DefaultWriter = io.MultiWriter(os.Stdout, logger.NewLogger())
+	gin.DisableConsoleColor()
+}
+
+var _ = loadProd

@@ -1,5 +1,6 @@
-app.env
-.vscode
+**.venv**
+.env
+**.vscode**
 .dockerignore
 docker-compose.yml
 fly.toml

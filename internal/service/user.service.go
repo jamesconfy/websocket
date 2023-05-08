@@ -69,6 +69,7 @@ func (u *userSrv) Login(req *forms.Login) (*models.Auth, *se.ServiceError) {
 	}
 
 	auth := new(models.Auth)
+	auth.UserId = user.Id
 
 	auth.AccessToken, auth.RefreshToken, err = u.authSrv.Create(user.Id, user.Email)
 	if err != nil {

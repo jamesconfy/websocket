@@ -1,1 +1,1 @@
-ALTER TABLE `users` ADD COLUMN `date_created` VARCHAR(250) NOT NULL;
+DROP TABLE IF EXISTS auth;

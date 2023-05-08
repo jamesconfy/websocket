@@ -1,8 +1,11 @@
 migrate_up:
-	migrate -path db/migration -database "postgres://localhost:password@localhost:5432/project_name?sslmode=disable" -verbose up
+	migrate -path db/migration -database "" -verbose up
 
 migrate_down:
-	migrate -path db/migration -database "" -verbose down
+	migrate -path db/migration -database "-verbose down
+
+migrate_force:
+	migrate -path db/migration -database " force $(version)
 
 run:
 	go build project-name-api.go && ./project-name-api

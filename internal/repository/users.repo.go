@@ -54,7 +54,7 @@ func (m *userSql) Add(req *models.User) (usr *models.User, err error) {
 func (m *userSql) GetByEmail(email string) (usr *models.User, err error) {
 	usr = new(models.User)
 
-	query := `SELECT user_id, email, password, first_name, last_name, phone_number, date_created FROM users WHERE email = $1`
+	query := `SELECT id, email, password, first_name, last_name, phone_number, date_created, date_updated FROM users WHERE email = $1`
 
 	err = m.conn.QueryRow(query, email).Scan(&usr.Id, &usr.Email, &usr.Password, &usr.FirstName, &usr.LastName, &usr.PhoneNumber, &usr.DateCreated, &usr.DateUpdated)
 	if err != nil {
@@ -67,7 +67,7 @@ func (m *userSql) GetByEmail(email string) (usr *models.User, err error) {
 func (m *userSql) GetById(userId string) (usr *models.User, err error) {
 	usr = new(models.User)
 
-	query := `SELECT user_id, email, password, first_name, last_name, phone_number, date_created FROM users WHERE email = $1`
+	query := `SELECT id, email, password, first_name, last_name, phone_number, date_created, date_updated FROM users WHERE email = $1`
 
 	err = m.conn.QueryRow(query, userId).Scan(&usr.Id, &usr.Email, &usr.Password, &usr.FirstName, &usr.LastName, &usr.PhoneNumber, &usr.DateCreated, &usr.DateUpdated)
 	if err != nil {
