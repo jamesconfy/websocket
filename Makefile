@@ -6,9 +6,7 @@ migrate_down:
 
 migrate_force:
 	migrate -path db/migration -database " force $(version)
-# load_env:
-# 	export $(cat .env | xargs)
-# $(shell export $$(cat .env | xargs))
+
 include .env
 export
 run:	
