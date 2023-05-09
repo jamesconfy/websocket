@@ -28,4 +28,4 @@ RUN go build -o project-name-api
 
 EXPOSE  8080
 
-CMD [ "./project-name-api" ]
+CMD [ "./project-name-api", "--migrate=true" ]

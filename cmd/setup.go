@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -31,6 +32,8 @@ var (
 	email_host   string
 	email_port   string
 )
+
+var migrate = flag.String("migrate", "false", "for migrations")
 
 func Setup() {
 	router := gin.New()
@@ -81,6 +84,7 @@ func Setup() {
 }
 
 func init() {
+	flag.Parse()
 	godotenv.Load(".env")
 
 	addr = utils.AppConfig.ADDR
@@ -102,6 +106,11 @@ func init() {
 		loadProd()
 	}
 
+	if *migrate == "true" {
+		if err := utils.Migration(dsn); err != nil {
+			log.Println(err)
+		}
+	}
 }
 
 func loadDev() {

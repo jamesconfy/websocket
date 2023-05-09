@@ -8,7 +8,12 @@ migrate_force:
 	migrate -path db/migration -database " force $(version)
 
 run:
-	go build project-name-api.go && ./project-name-api
+	@if [ "$(migrate)" == "true" ]; \
+	then \
+		go build project-name-api.go && ./project-name-api --migrate=true; \
+    else \
+		go build project-name-api.go && ./project-name-api --migrate=false; \
+    fi
 
 gotidy:
 	go mod tidy
