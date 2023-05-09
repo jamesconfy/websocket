@@ -18,21 +18,23 @@ type Config struct {
 	POSTGRES_DBNAME   string `mapstructure:"POSTGRES_DBNAME"`
 }
 
-var AppConfig Config
+var AppConfig *Config
 
 func init() {
-	viper.AddConfigPath(".")
-	viper.SetConfigFile(".env")
-
 	viper.AutomaticEnv()
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(err)
-	}
-
-	err = viper.Unmarshal(&AppConfig)
-	if err != nil {
-		panic(err)
+	AppConfig = &Config{
+		MODE:              viper.GetString("MODE"),
+		ADDR:              viper.GetString("ADDR"),
+		SECRET_KEY_TOKEN:  viper.GetString("SECRET_KEY_TOKEN"),
+		HOST:              viper.GetString("HOST"),
+		PORT:              viper.GetString("PORT"),
+		PASSWD:            viper.GetString("PASSWD"),
+		EMAIL:             viper.GetString("EMAIL"),
+		EXPIRES_AT:        viper.GetString("EXPIRES_AT"),
+		POSTGRES_HOST:     viper.GetString("POSTGRES_HOST"),
+		POSTGRES_USERNAME: viper.GetString("POSTGRES_USERNAME"),
+		POSTGRES_PASSWORD: viper.GetString("POSTGRES_PASSWORD"),
+		POSTGRES_DBNAME:   viper.GetString("POSTGRES_DBNAME"),
 	}
 }

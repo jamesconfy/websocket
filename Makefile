@@ -6,14 +6,18 @@ migrate_down:
 
 migrate_force:
 	migrate -path db/migration -database " force $(version)
+# load_env:
+# 	export $(cat .env | xargs)
+# $(shell export $$(cat .env | xargs))
+include .env
+export
+run:	
+	go build project-name-api.go && ./project-name-api --migrate=false
 
-run:
-	@if [ "$(migrate)" == "true" ]; \
-	then \
-		go build project-name-api.go && ./project-name-api --migrate=true; \
-    else \
-		go build project-name-api.go && ./project-name-api --migrate=false; \
-    fi
+include .env
+export
+run_migrate:
+	go build project-name-api.go && ./project-name-api --migrate=true
 
 gotidy:
 	go mod tidy

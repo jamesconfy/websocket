@@ -17,7 +17,6 @@ import (
 	utils "project-name/utils"
 
 	gin "github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -85,7 +84,6 @@ func Setup() {
 
 func init() {
 	flag.Parse()
-	godotenv.Load(".env")
 
 	addr = utils.AppConfig.ADDR
 	if addr == "" {
