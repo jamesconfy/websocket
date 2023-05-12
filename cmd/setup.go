@@ -55,22 +55,22 @@ func Setup() {
 	userRepo := repo.NewUserRepo(conn)
 
 	// Email Service
-	emailSrv := service.NewEmailSrv(email, email_passwd, email_host, email_port)
+	emailSrv := service.NewEmailService(email, email_passwd, email_host, email_port)
 
 	// Token Service
 	authSrv := service.NewAuthService(authRepo, secret)
 
 	// Validation Service
-	validatorSrv := service.NewValidationStruct()
+	validatorSrv := service.NewValidationService()
 
 	// Cryptography Service
-	cryptoSrv := service.NewCryptoSrv()
+	cryptoSrv := service.NewCryptoService()
 
 	// Home Service
-	homeSrv := service.NewHomeSrv()
+	homeSrv := service.NewHomeService()
 
 	// User Service
-	userSrv := service.NewUserSrv(userRepo, authRepo, validatorSrv, cryptoSrv, authSrv, emailSrv)
+	userSrv := service.NewUserService(userRepo, authRepo, validatorSrv, cryptoSrv, authSrv, emailSrv)
 
 	// Routes
 	routes.HomeRoute(v1, homeSrv)

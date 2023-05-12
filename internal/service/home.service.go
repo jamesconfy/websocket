@@ -12,6 +12,6 @@ func (h *homeSrv) CreateHome() (string, *se.ServiceError) {
 	return "Home", nil
 }
 
-func NewHomeSrv() HomeService {
+func NewHomeService() HomeService {
 	return &homeSrv{}
 }

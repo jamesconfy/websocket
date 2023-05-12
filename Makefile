@@ -40,3 +40,15 @@ docker_push:
 
 deploy:
 	flyctl deploy
+
+test:
+	go test ./tests/repo_test && go test ./tests/service_test && go test ./tests/handler_test
+
+repo_test:
+	go test ./tests/repo_test
+
+service_test:
+	go test ./tests/service_test
+
+handler_test:
+	go test ./tests/handler_test

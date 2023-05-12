@@ -8,7 +8,7 @@ type ValidationService interface {
 
 type validationStruct struct{}
 
-func NewValidationStruct() ValidationService {
+func NewValidationService() ValidationService {
 	return &validationStruct{}
 }
 

@@ -5,7 +5,7 @@ import "project-name/cmd"
 func main() {
 	// @title           Project
 	// @version         1.0
-	// @description     Server for https://bennyfoodie.netlify.app/
+	// @description     Server for {{your server link}}
 	// @termsOfService  http://swagger.io/terms/
 
 	// @contact.name   Confidence James

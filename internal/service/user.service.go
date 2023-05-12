@@ -5,11 +5,15 @@ import (
 	"project-name/internal/models"
 	repo "project-name/internal/repository"
 	"project-name/internal/se"
+
+	"github.com/docker/distribution/uuid"
 )
 
 type UserService interface {
 	Create(req *forms.Create) (*models.User, *se.ServiceError)
 	Login(req *forms.Login) (*models.Auth, *se.ServiceError)
+	Get(userId string) (*models.User, *se.ServiceError)
+	GetAll() ([]*models.User, *se.ServiceError)
 }
 
 type userSrv struct {
@@ -85,6 +89,29 @@ func (u *userSrv) Login(req *forms.Login) (*models.Auth, *se.ServiceError) {
 	return ath, nil
 }
 
-func NewUserSrv(repo repo.UserRepo, authRepo repo.AuthRepo, validator ValidationService, cryptoSrv CryptoService, authSrv AuthService, emailSrv EmailService) UserService {
+func (u *userSrv) Get(userId string) (*models.User, *se.ServiceError) {
+	_, err := uuid.Parse(userId)
+	if err != nil {
+		return nil, se.NotFound("user not found")
+	}
+
+	user, err := u.userRepo.GetById(userId)
+	if err != nil {
+		return nil, se.NotFoundOrInternal(err, "user not found")
+	}
+
+	return user, nil
+}
+
+func (u *userSrv) GetAll() ([]*models.User, *se.ServiceError) {
+	users, err := u.userRepo.GetAll()
+	if err != nil {
+		return nil, se.Internal(err)
+	}
+
+	return users, nil
+}
+
+func NewUserService(repo repo.UserRepo, authRepo repo.AuthRepo, validator ValidationService, cryptoSrv CryptoService, authSrv AuthService, emailSrv EmailService) UserService {
 	return &userSrv{userRepo: repo, authRepo: authRepo, validatorSrv: validator, cryptoSrv: cryptoSrv, authSrv: authSrv, emailSrv: emailSrv}
 }
