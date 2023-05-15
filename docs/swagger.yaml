@@ -88,6 +88,33 @@ info:
   title: Project
   version: "1.0"
 paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Get home details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SuccessMessage'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/se.ServiceError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/se.ServiceError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/se.ServiceError'
+      summary: Get home route
+      tags:
+      - Home
   /auth/login:
     post:
       consumes:

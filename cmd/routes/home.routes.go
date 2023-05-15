@@ -9,8 +9,6 @@ import (
 
 func HomeRoute(router *gin.RouterGroup, homeSrv service.HomeService) {
 	handler := handlers.NewHomeHandler(homeSrv)
-	home := router.Group("")
-	{
-		home.GET("", handler.Home)
-	}
+
+	router.Group("").GET("", handler.Home)
 }

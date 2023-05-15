@@ -9,7 +9,7 @@ type HomeService interface {
 type homeSrv struct{}
 
 func (h *homeSrv) CreateHome() (string, *se.ServiceError) {
-	return "Home", nil
+	return "You have gotten to the home route of project-name", nil
 }
 
 func NewHomeService() HomeService {
