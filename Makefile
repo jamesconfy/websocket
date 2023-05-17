@@ -7,13 +7,9 @@ migrate_down:
 migrate_force:
 	migrate -path db/migration -database " force $(version)
 
-include .env
-export
 run:	
 	go build project-name-api.go && ./project-name-api --migrate=false
 
-include .env
-export
 run_migrate:
 	go build project-name-api.go && ./project-name-api --migrate=true
 
