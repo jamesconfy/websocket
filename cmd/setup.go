@@ -7,14 +7,16 @@ import (
 	"log"
 	"os"
 
-	middleware "project-name/cmd/middleware"
-	routes "project-name/cmd/routes"
-	_ "project-name/docs"
-	sql "project-name/internal/database"
-	"project-name/internal/logger"
-	repo "project-name/internal/repository"
-	service "project-name/internal/service"
-	utils "project-name/utils"
+	middleware "websocket/cmd/middleware"
+	routes "websocket/cmd/routes"
+	_ "websocket/docs"
+
+	// sql "websocket/internal/database"
+	database "websocket/internal/database"
+	"websocket/internal/logger"
+	repo "websocket/internal/repository"
+	service "websocket/internal/service"
+	utils "websocket/utils"
 
 	gin "github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -41,7 +43,7 @@ func Setup() {
 	v1.Use(gin.Recovery())
 	router.Use(middleware.CORS())
 
-	db, err := sql.New(dsn)
+	db, err := database.New(dsn)
 	if err != nil {
 		log.Println("Error Connecting to DB: ", err)
 	}

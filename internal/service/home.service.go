@@ -1,6 +1,6 @@
 package service
 
-import "project-name/internal/se"
+import "websocket/internal/se"
 
 type HomeService interface {
 	CreateHome() (string, *se.ServiceError)

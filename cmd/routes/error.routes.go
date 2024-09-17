@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"project-name/cmd/handlers"
+	"websocket/cmd/handlers"
 
 	"github.com/gin-gonic/gin"
 )

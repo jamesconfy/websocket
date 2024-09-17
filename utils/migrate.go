@@ -3,7 +3,7 @@ package utils
 import (
 	"database/sql"
 
-	"project-name/internal/database"
+	"websocket/internal/database"
 
 	"github.com/golang-migrate/migrate/v4"
 	postgres "github.com/golang-migrate/migrate/v4/database/postgres"

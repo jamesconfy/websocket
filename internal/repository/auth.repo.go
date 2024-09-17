@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"strconv"
 	"time"
-
-	"project-name/internal/models"
-	"project-name/utils"
+	
+	"websocket/internal/models"
+	"websocket/utils"
 )
 
 type AuthRepo interface {

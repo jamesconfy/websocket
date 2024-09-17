@@ -3,7 +3,7 @@ package repo
 import (
 	"database/sql"
 
-	"project-name/internal/models"
+	"websocket/internal/models"
 )
 
 type UserRepo interface {

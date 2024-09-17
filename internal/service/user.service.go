@@ -1,10 +1,10 @@
 package service
 
 import (
-	"project-name/internal/forms"
-	"project-name/internal/models"
-	repo "project-name/internal/repository"
-	"project-name/internal/se"
+	"websocket/internal/forms"
+	"websocket/internal/models"
+	repo "websocket/internal/repository"
+	"websocket/internal/se"
 
 	"github.com/docker/distribution/uuid"
 )

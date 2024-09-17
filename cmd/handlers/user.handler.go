@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"project-name/internal/forms"
-	"project-name/internal/response"
-	"project-name/internal/se"
-	"project-name/internal/service"
+	"websocket/internal/forms"
+	"websocket/internal/response"
+	"websocket/internal/se"
+	"websocket/internal/service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,6 +19,8 @@ type UserHandler interface {
 type userHandler struct {
 	userSrv service.UserService
 }
+
+var defaultCookieName = "Authorization"
 
 // Register User godoc
 // @Summary	Register route
@@ -75,6 +77,7 @@ func (u *userHandler) Login(c *gin.Context) {
 		return
 	}
 
+	setCookie(c, auth.AccessToken, 0)
 	response.Success(c, "user logged in successfully", auth)
 }
 
@@ -123,4 +126,20 @@ func (u *userHandler) GetAll(c *gin.Context) {
 
 func NewUserHandler(userSrv service.UserService) UserHandler {
 	return &userHandler{userSrv: userSrv}
+}
+
+// Auxillary function
+func setCookie(c *gin.Context, value string, max_age int) {
+	c.SetCookie(defaultCookieName, value, 0, "/", "", false, true)
+}
+
+func getAuth(c *gin.Context) (auth string) {
+	auth, _ = c.Cookie("Authorization")
+
+	if auth != "" {
+		return
+	}
+
+	auth = c.GetHeader("Authorization")
+	return
 }

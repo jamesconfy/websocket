@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"project-name/internal/response"
-	"project-name/internal/service"
+	"websocket/internal/response"
+	"websocket/internal/service"
 
 	"github.com/gin-gonic/gin"
 )
