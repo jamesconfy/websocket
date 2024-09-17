@@ -1,7 +1,7 @@
 package service_test
 
 import (
-	"project-name/internal/forms"
+	"websocket/internal/forms"
 	"testing"
 )
 

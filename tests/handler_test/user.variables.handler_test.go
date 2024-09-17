@@ -1,8 +1,8 @@
 package handler_test
 
 import (
-	"project-name/internal/forms"
-	"project-name/internal/models"
+	"websocket/internal/forms"
+	"websocket/internal/models"
 
 	"github.com/bxcodec/faker/v4"
 )

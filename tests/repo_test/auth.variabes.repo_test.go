@@ -1,7 +1,7 @@
 package repo_test
 
 import (
-	"project-name/internal/models"
+	"websocket/internal/models"
 
 	"github.com/bxcodec/faker/v4"
 )

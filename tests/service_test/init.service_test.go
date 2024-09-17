@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	repo "project-name/internal/repository"
-	"project-name/internal/service"
+	repo "websocket/internal/repository"
+	"websocket/internal/service"
 
 	"github.com/golang-migrate/migrate/v4"
 	postgres "github.com/golang-migrate/migrate/v4/database/postgres"

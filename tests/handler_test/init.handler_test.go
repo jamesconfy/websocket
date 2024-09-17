@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"time"
 
-	routes "project-name/cmd/routes"
-	repo "project-name/internal/repository"
-	"project-name/internal/service"
+	routes "websocket/cmd/routes"
+	repo "websocket/internal/repository"
+	"websocket/internal/service"
 
 	"github.com/gin-gonic/gin"
 

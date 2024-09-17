@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	repo "project-name/internal/repository"
+	repo "websocket/internal/repository"
 
 	"github.com/golang-migrate/migrate/v4"
 	postgres "github.com/golang-migrate/migrate/v4/database/postgres"
