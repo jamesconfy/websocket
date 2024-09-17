@@ -3,7 +3,7 @@ package response
 import (
 	"net/http"
 
-	se "project-name/internal/se"
+	se "websocket/internal/se"
 
 	"github.com/gin-gonic/gin"
 )

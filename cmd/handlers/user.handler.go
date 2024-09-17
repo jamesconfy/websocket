@@ -143,3 +143,6 @@ func getAuth(c *gin.Context) (auth string) {
 	auth = c.GetHeader("Authorization")
 	return
 }
+
+var _ = getAuth;
+var _ = setCookie;
