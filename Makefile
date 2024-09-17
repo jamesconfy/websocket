@@ -8,10 +8,10 @@ migrate_force:
 	migrate -path db/migration -database " force $(version)
 
 run:	
-	go build project-name-api.go && ./project-name-api --migrate=false
+	go build websocket.go && ./websocket --migrate=false
 
 run_migrate:
-	go build project-name-api.go && ./project-name-api --migrate=true
+	go build websocket.go && ./websocket --migrate=true
 
 gotidy:
 	go mod tidy
@@ -20,7 +20,7 @@ goinit:
 	go mod init
 
 swag:
-	swag init -g project-name-api.go -ot go,yaml 
+	swag init -g websocket.go -ot go,yaml 
 
 migrate_init:
 	migrate create -ext sql -dir db/migration -seq init_schema
@@ -29,10 +29,10 @@ launch:
 	flyctl launch
 
 docker_init:
-	docker build -t everybody8/project-name-api:v$(version) .
+	docker build -t everybody8/websocket:v$(version) .
 
 docker_push:
-	docker push everybody8/project-name-api:v$(version)
+	docker push everybody8/websocket:v$(version)
 
 deploy:
 	flyctl deploy
